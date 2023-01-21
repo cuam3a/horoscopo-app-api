@@ -3,7 +3,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const express = require("express");
 const cors = require("cors");
-const { getZodiacSign } = require("./utils/functions");
+const { getZodiacSign, createShareAmazonPhoto } = require("./utils/functions");
 const app = express();
 
 var corsOptions = {
@@ -79,6 +79,19 @@ app.get("/api/getZodiac/:name/:day", async (req, res) => {
     });
   }
 });
+
+app.get("/api/createShareAmazonPhoto", async (req, res) => {
+  try {
+    const share = await createShareAmazonPhoto();
+    return res.status(200).json({
+      result: share,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      err: err.toString(),
+    });
+  }
+})
 
 //app.listen(PORT, () => console.log(`server running on port ${PORT}`));
 module.exports = app;
